@@ -95,7 +95,7 @@ function getFeedHtml(){
                 repliesHtml+=`
 <div class="tweet-reply">
     <div class="tweet-inner">
-        <img src="${reply.profilePic}" class="profile-pic">
+        <img src="/${reply.profilePic}" class="profile-pic">
             <div>
                 <p class="handle">${reply.handle}</p>
                 <p class="tweet-text">${reply.tweetText}</p>
@@ -110,7 +110,7 @@ function getFeedHtml(){
         feedHtml += `
 <div class="tweet">
     <div class="tweet-inner">
-        <img src="${tweet.profilePic}" class="profile-pic">
+        <img src="/${tweet.profilePic}" class="profile-pic">
         <div>
             <p class="handle">${tweet.handle}</p>
             <p class="tweet-text">${tweet.tweetText}</p>
