@@ -1,5 +1,9 @@
-import { tweetsData } from './data.js'
+import { tweetsData as originalData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+
+// I copy the array from the original data in order to change it with data from local storage or original
+let tweetsData = [...originalData]
+
 
 document.addEventListener('click', function(e){
     if(e.target.dataset.like){
@@ -31,6 +35,7 @@ function handleLikeClick(tweetId){
         targetTweetObj.likes++ 
     }
     targetTweetObj.isLiked = !targetTweetObj.isLiked
+    saveToLocalStorage()
     render()
 }
 
@@ -46,6 +51,7 @@ function handleRetweetClick(tweetId){
         targetTweetObj.retweets++
     }
     targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
+    saveToLocalStorage()
     render() 
 }
 
@@ -69,6 +75,7 @@ function handleCommentClick(tweetId){
             profilePic: `/images/scrimbalogo.png`,
             tweetText: replyText,
         })
+        saveToLocalStorage()
         render()
         replyInput.value = ''
 
@@ -94,6 +101,7 @@ function handleTweetBtnClick(){
             isRetweeted: false,
             uuid: uuidv4()
         })
+    saveToLocalStorage()    
     render()
     tweetInput.value = ''
     }
@@ -179,10 +187,27 @@ function getFeedHtml(){
    return feedHtml 
 }
 
+function saveToLocalStorage(){
+
+    localStorage.setItem('tweets', JSON.stringify(tweetsData))
+}
+
+function loadFromLocalStorage(){
+
+    const savedTweets = localStorage.getItem("tweets")
+    if(savedTweets){
+
+        tweetsData = JSON.parse(savedTweets)
+
+    }
+
+}
+
 function render(){
 
     document.getElementById('feed').innerHTML = getFeedHtml()
 }
-
+loadFromLocalStorage()
 render()
+
 
