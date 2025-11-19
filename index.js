@@ -6,6 +6,7 @@ let tweetsData = [...originalData]
 
 
 document.addEventListener('click', function(e){
+    
     if(e.target.dataset.like){
        handleLikeClick(e.target.dataset.like) 
     }
@@ -20,9 +21,26 @@ document.addEventListener('click', function(e){
     }
     else if(e.target.dataset.comment){
     handleCommentClick(e.target.dataset.comment)
-}
+    }
+    else if(e.target.dataset.trash){
+        handleDeleteClick(e.target.dataset.trash)
+    }
 })
- 
+
+function handleDeleteClick(tweetId){ 
+    
+    const risultato = confirm("Sei sicuro vuoi eliminare il tweet?")
+
+    const targetTweetIndex = tweetsData.findIndex(function(tweet){
+        return tweet.uuid === tweetId
+    })
+
+    if(risultato){
+        tweetsData.splice(targetTweetIndex,1)
+    }
+    saveToLocalStorage()
+    render()
+}
 function handleLikeClick(tweetId){ 
     const targetTweetObj = tweetsData.filter(function(tweet){
         return tweet.uuid === tweetId
@@ -169,6 +187,11 @@ function getFeedHtml(){
                                 data-retweet="${tweet.uuid}"
                                 ></i>
                                 ${tweet.retweets}
+                            </span>
+                            <span class="tweet-detail">
+                                <i class="fa-solid fa-trash"
+                                data-trash="${tweet.uuid}"
+                                ></i>
                             </span>
                         </div>   
                     </div>            
